@@ -1,6 +1,6 @@
 # [dep-graph](http://github.com/TrevorBurnham/dep-graph)
 
-module.exports = class DepGraph
+class DepGraph
   constructor: ->
     # The internal representation of the dependency graph in the format
     # `id: [ids]`, indicating only *direct* dependencies.
@@ -27,3 +27,9 @@ module.exports = class DepGraph
       @getChain depId, traversedPaths, traversedBranch.slice(0)
 
     traversedPaths
+
+# Export the class in Node, make it global in the browser.
+if module?.exports?
+  module.exports = DepGraph
+else
+  @DepGraph = DepGraph
