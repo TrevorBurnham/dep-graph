@@ -18,3 +18,18 @@ exports['getChain can safely be called for unknown resources'] = (test) ->
   test.doesNotThrow -> depGraph.getChain('Z')
   test.deepEqual depGraph.getChain('Z'), []
   test.done()
+
+exports['Cyclic dependencies are detected'] = (test) ->
+  depGraph.add 'yin', 'yang'
+  depGraph.add 'yang', 'yin'
+  test.throws -> depGraph.getChain 'yin'
+  test.throws -> depGraph.getChain 'yang'
+  test.done()
+
+exports['Arc direction is taken into account (issue #1)'] = (test) ->
+  depGraph.add "MAIN", "One"
+  depGraph.add "MAIN", "Three"
+  depGraph.add "One", "Two"
+  depGraph.add "Two", "Three"
+  test.deepEqual depGraph.getChain("MAIN"), ['Three', 'Two', 'One']
+  test.done()

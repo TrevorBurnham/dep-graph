@@ -16,17 +16,23 @@ class DepGraph
   # Generate a list of all dependencies (direct and indirect) for the given id,
   # in logical order with no duplicates.
   getChain: (id, traversedPaths = [], traversedBranch = []) ->
+    traversedPaths.unshift id
+    traversedBranch.unshift id
     return [] unless @map[id]
 
-    for depId in @map[id].slice(0).reverse()
+    depIds = @map[id]
+    for depId in depIds.slice(0).reverse()
       if depId in traversedBranch          # cycle
-          throw new Error("Cyclic dependency from #{id} to #{depId}")
-      continue if depId in traversedPaths  # duplicate
-      traversedPaths.unshift depId
-      traversedBranch.unshift depId
+        throw new Error("Cyclic dependency from #{id} to #{depId}")
+      if depId in traversedPaths          # duplicate, push to front
+        depIdIndex = traversedPaths.indexOf depId
+        traversedPaths[depIdIndex..depIdIndex] = []
+        traversedPaths.unshift depId
+        continue
+
       @getChain depId, traversedPaths, traversedBranch.slice(0)
 
-    traversedPaths
+    traversedPaths[0...-1]
 
 # Export the class in Node, make it global in the browser.
 if module?.exports?

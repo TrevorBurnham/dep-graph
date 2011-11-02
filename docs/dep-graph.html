@@ -6,17 +6,23 @@
     <span class="nx">@map</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span> <span class="nx">depId</span>
     <span class="nx">@map</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Generate a list of all dependencies (direct and indirect) for the given id,
 in logical order with no duplicates.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">getChain: </span><span class="nf">(id, traversedPaths = [], traversedBranch = []) -&gt;</span>
+    <span class="nx">traversedPaths</span><span class="p">.</span><span class="nx">unshift</span> <span class="nx">id</span>
+    <span class="nx">traversedBranch</span><span class="p">.</span><span class="nx">unshift</span> <span class="nx">id</span>
     <span class="k">return</span> <span class="p">[]</span> <span class="nx">unless</span> <span class="nx">@map</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span>
 
-    <span class="k">for</span> <span class="nx">depId</span> <span class="k">in</span> <span class="nx">@map</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">reverse</span><span class="p">()</span>
+    <span class="nv">depIds = </span><span class="nx">@map</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span>
+    <span class="k">for</span> <span class="nx">depId</span> <span class="k">in</span> <span class="nx">depIds</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">reverse</span><span class="p">()</span>
       <span class="k">if</span> <span class="nx">depId</span> <span class="k">in</span> <span class="nx">traversedBranch</span>          <span class="c1"># cycle</span>
-          <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Cyclic dependency from #{id} to #{depId}&quot;</span><span class="p">)</span>
-      <span class="k">continue</span> <span class="k">if</span> <span class="nx">depId</span> <span class="k">in</span> <span class="nx">traversedPaths</span>  <span class="c1"># duplicate</span>
-      <span class="nx">traversedPaths</span><span class="p">.</span><span class="nx">unshift</span> <span class="nx">depId</span>
-      <span class="nx">traversedBranch</span><span class="p">.</span><span class="nx">unshift</span> <span class="nx">depId</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Cyclic dependency from #{id} to #{depId}&quot;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nx">depId</span> <span class="k">in</span> <span class="nx">traversedPaths</span>          <span class="c1"># duplicate, push to front</span>
+        <span class="nv">depIdIndex = </span><span class="nx">traversedPaths</span><span class="p">.</span><span class="nx">indexOf</span> <span class="nx">depId</span>
+        <span class="nx">traversedPaths</span><span class="p">[</span><span class="nx">depIdIndex</span><span class="p">..</span><span class="nx">depIdIndex</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="nx">traversedPaths</span><span class="p">.</span><span class="nx">unshift</span> <span class="nx">depId</span>
+        <span class="k">continue</span>
+
       <span class="nx">@getChain</span> <span class="nx">depId</span><span class="p">,</span> <span class="nx">traversedPaths</span><span class="p">,</span> <span class="nx">traversedBranch</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="nx">traversedPaths</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Export the class in Node, make it global in the browser.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">if</span> <span class="nx">module</span><span class="o">?</span><span class="p">.</span><span class="nx">exports</span><span class="o">?</span>
+    <span class="nx">traversedPaths</span><span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Export the class in Node, make it global in the browser.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">if</span> <span class="nx">module</span><span class="o">?</span><span class="p">.</span><span class="nx">exports</span><span class="o">?</span>
   <span class="nv">module.exports = </span><span class="nx">DepGraph</span>
 <span class="k">else</span>
   <span class="vi">@DepGraph = </span><span class="nx">DepGraph</span>
