@@ -6,9 +6,12 @@
   "homepage": "http://github.com/TrevorBurnham/dep-graph",
   "repository": {
     "type": "git",
-    "url": "git://github.com/TrevorBurnham/dep-graph.git"
+    "url": "git://github.com/TrevorBurnham/dep-graph.git",
   },
   "main": "lib/dep-graph.js",
+  "dependencies": {
+    "underscore": "1.2.1"
+  },
   "devDependencies": {
     "coffee-script": "1.1.2",
     "nodeunit": "0.5.4",
