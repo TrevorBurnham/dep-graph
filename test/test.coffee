@@ -27,9 +27,17 @@ exports['Cyclic dependencies are detected'] = (test) ->
   test.done()
 
 exports['Arc direction is taken into account (issue #1)'] = (test) ->
-  depGraph.add "MAIN", "One"
-  depGraph.add "MAIN", "Three"
-  depGraph.add "One", "Two"
-  depGraph.add "Two", "Three"
-  test.deepEqual depGraph.getChain("MAIN"), ['Three', 'Two', 'One']
+  depGraph.add 'MAIN', 'One'
+  depGraph.add 'MAIN', 'Three'
+  depGraph.add 'One', 'Two'
+  depGraph.add 'Two', 'Three'
+  test.deepEqual depGraph.getChain('MAIN'), ['Three', 'Two', 'One']
+  test.done()
+
+exports['Dependency ordering is consistent (issue #2)'] = (test) ->
+  depGraph.add 'Head', 'Neck'
+  depGraph.add 'Head', 'Heart'
+  depGraph.add 'Heart', 'Neck'
+  depGraph.add 'Neck', 'Shoulders'
+  test.deepEqual depGraph.getChain('Head'), ['Shoulders', 'Neck', 'Heart']
   test.done()
