@@ -6,7 +6,7 @@
   "homepage": "http://github.com/TrevorBurnham/dep-graph",
   "repository": {
     "type": "git",
-    "url": "git://github.com/TrevorBurnham/dep-graph.git",
+    "url": "git://github.com/TrevorBurnham/dep-graph.git"
   },
   "main": "lib/dep-graph.js",
   "dependencies": {
