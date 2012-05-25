@@ -42,11 +42,9 @@ exports['Dependency ordering is consistent (issue #2)'] = (test) ->
   test.deepEqual depGraph.getChain('Head'), ['Shoulders', 'Neck', 'Heart']
   test.done()
 
-exports['Dependency not interfered by others (issue #6)'] = (test) ->
-  depGraph.add 'Jia', 'Yi'
-  depGraph.add 'Jia', 'Bing'
-  depGraph.add 'Jia', 'Ding'
-  depGraph.add 'Wu', 'Ding'
-  test.deepEqual depGraph.getChain('Wu'), ['Ding']
-  test.ok 'Jia' not in depGraph.getChain('Wu')
+exports['Nodes with same dependencies do not depend on each other (issue #6)'] = (test) ->
+  depGraph.add 'Java', 'JVM'
+  depGraph.add 'JRuby', 'JVM'
+  test.deepEqual depGraph.getChain('Java'), ['JVM']
+  test.deepEqual depGraph.getChain('JRuby'), ['JVM']
   test.done()
