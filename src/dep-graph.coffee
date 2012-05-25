@@ -27,8 +27,7 @@ class DepGraph
     visit = (node) =>
       return if visited[node] or node is id
       visited[node] = true
-      for parent in @parentsOf(node)
-        visit parent
+      visit parent for parent in @parentsOf(node) when parent in deps
       chain.unshift node
 
     for leafNode in _.intersection(deps, @leafNodes()).reverse()
