@@ -15,7 +15,7 @@ Say you have a set of resources that depend on each other in some way. These res
     deps = new DepGraph
     deps.add 'A', 'B'  # A requires B
     deps.add 'B', 'C'  # B requires C
-    deps.getChain 'A'  # ['C', 'B', 'A']
+    deps.getChain 'A'  # ['C', 'B']
 
 ### In Node.js
 
