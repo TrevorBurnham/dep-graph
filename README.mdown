@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/TrevorBurnham/dep-graph.png)](http://travis-ci.org/TrevorBurnham/dep-graph)
 # dep-graph.js
 
 This is a small project spun off from [connect-assets](http://github.com/TrevorBurnham/connect-assets). Written in [CoffeeScript](coffeescript.org) by the author of [CoffeeScript: Accelerated JavaScript Development](http://pragprog.com/book/tbcoffee/coffeescript).
