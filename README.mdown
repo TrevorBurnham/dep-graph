@@ -1,6 +1,6 @@
 # dep-graph.js
 
-This is a small project spun off from [connect-assets](http://github.com/TrevorBurnham/connect-assets). Written in [CoffeeScript](coffeescript.org) by the author of [CoffeeScript: Accelerated JavaScript Development](http://pragprog.com/book/tbcoffee/coffeescript).
+This is a small project spun off from [connect-assets](http://github.com/adunkman/connect-assets). Written in [CoffeeScript](coffeescript.org) by the author of [CoffeeScript: Accelerated JavaScript Development](http://pragprog.com/book/tbcoffee/coffeescript).
 
 ## What's it for?
 
